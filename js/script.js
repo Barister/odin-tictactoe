@@ -12,13 +12,9 @@ function Gameboard() {
       }
    }
 
-   console.log('board', board);
-
    const getBoard = () => board;
 
    const markCell = (row, column, player) => {
-
-      console.log('board[row][column]', board[row][column], board[row][column].getValue() === 0);
 
       if (board[row][column].getValue() === 0) {
          board[row][column].AddMarker(player);
@@ -27,12 +23,7 @@ function Gameboard() {
       return false;
    }
 
-   const printBoard = () => {
-      const boardWithMarkers = board.map(row => row.map(cell => cell.getValue()));
-      console.log(boardWithMarkers);
-   }
-
-   return { getBoard, markCell, printBoard }
+   return { getBoard, markCell }
 }
 
 function Cell() {
@@ -48,10 +39,11 @@ function Cell() {
 }
 
 function GameController(
+   updateScreenCallback,
+   removeClickHandler,
    playerOneName = 'Player One',
    playerTwoName = 'Player Two'
 ) {
-   console.log('Let\'s the game begin!!!');
 
    const board = Gameboard();
 
@@ -77,8 +69,6 @@ function GameController(
    const checkWinner = () => {
       const currentBoard = board.getBoard();
 
-      console.log('currentBoard to check the winner:', currentBoard);
-
       const winningCombinations = [
          [[0, 0], [0, 1], [0, 2]],
          [[1, 0], [1, 1], [1, 2]],
@@ -93,8 +83,6 @@ function GameController(
       for (const combination of winningCombinations) {
          const [a, b, c] = combination;
 
-         console.log('currentBoard[a[0]][a[1]]:', currentBoard[a[0]][a[1]].getValue());
-
          if (currentBoard[a[0]][a[1]].getValue() && currentBoard[a[0]][a[1]].getValue() === currentBoard[b[0]][b[1]].getValue() && currentBoard[a[0]][a[1]].getValue() === currentBoard[c[0]][c[1]].getValue()) {
 
 
@@ -105,33 +93,26 @@ function GameController(
       return null;
    }
 
-   const printNewRound = () => {
-      board.printBoard();
-      console.log(`${getActivePlayer().name}'s turn.`);
-   }
-
    const playRound = (selectedCell) => {
 
       const [row, column] = selectedCell;
 
-      //console.log(row, column, getActivePlayer().marker, board.markCell(row, column, getActivePlayer().marker));
-
       if (board.markCell(row, column, getActivePlayer().marker)) {
          const winner = checkWinner();
 
-         console.log('winner:', winner);
-
          if (winner) {
-            board.printBoard();
-            console.log(`${winner} wins!`);
+
+            updateScreenCallback(`${getActivePlayer().name} wins!`);
+            removeClickHandler();
+
             return;
          }
 
          switchPlayerTurn();
-         printNewRound();
+         updateScreenCallback(`${getActivePlayer().name}'s turn.`);
 
       } else {
-         console.log('Invalid move, try again.');
+         updateScreenCallback('Invalid move, try again.');
       }
    };
 
@@ -145,32 +126,29 @@ function GameController(
 
 function ScreenController() {
 
-   const game = GameController();
-
-   let playerTurnDiv, boardDiv;
+   let infoDiv, boardDiv;
 
    const init = () => {
       cacheDom();
    }
 
    const cacheDom = () => {
-      playerTurnDiv = document.querySelector('.page__player-turn');
+      infoDiv = document.querySelector('.page__player-turn');
       boardDiv = document.querySelector('.page__board');
-
-      console.log('cacheDom ready');
    }
 
-   const updateScreen = () => {
+   const updateScreen = (message) => {
 
       //clear the board;
       boardDiv.textContent = '';
 
       // get the fresh board and player turn
       const board = game.getBoard();
-      const activePlayer = game.getActivePlayer();
+      activePlayer = game.getActivePlayer();
 
-      // display player's turn
-      playerTurnDiv.textContent = `${activePlayer.name}'s turn...`;
+      // display message
+
+      infoDiv.textContent = message;
 
       // render board squares
       board.forEach((row, rowIndex) => {
@@ -194,19 +172,22 @@ function ScreenController() {
 
       if (!selectedCell) return;
 
-      console.log('selectedCell', selectedCell);
-
       game.playRound(selectedCell);
-      updateScreen();
+
    }
 
+   const removeClickHandler = () => {
+      boardDiv.removeEventListener('click', clickHandlerBoard);
+   }
 
 
    init();
 
-   boardDiv.addEventListener('click', clickHandlerBoard, true);
+   const game = GameController(updateScreen, removeClickHandler);
 
-   updateScreen();
+   boardDiv.addEventListener('click', clickHandlerBoard);
+
+   updateScreen(`${game.getActivePlayer().name}'s turn.`);
 
 }
 
