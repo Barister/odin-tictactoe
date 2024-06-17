@@ -50,11 +50,11 @@ function GameController(
    const players = [
       {
          name: playerOneName,
-         marker: 1
+         marker: 'X'
       },
       {
          name: playerTwoName,
-         marker: 2
+         marker: 'O'
       }
    ];
 
@@ -109,7 +109,7 @@ function GameController(
          }
 
          switchPlayerTurn();
-         updateScreenCallback(`${getActivePlayer().name}'s turn.`);
+         updateScreenCallback(`${getActivePlayer().name}'s turn`);
 
       } else {
          updateScreenCallback('Invalid move, try again.');
@@ -144,7 +144,7 @@ function ScreenController() {
 
       // get the fresh board and player turn
       const board = game.getBoard();
-      activePlayer = game.getActivePlayer();
+      //const activePlayer = game.getActivePlayer();
 
       // display message
 
@@ -153,14 +153,14 @@ function ScreenController() {
       // render board squares
       board.forEach((row, rowIndex) => {
          const rowDiv = document.createElement('div');
-         rowDiv.classList.add("row");
+         rowDiv.classList.add("board__row");
          rowDiv.dataset.row = rowIndex;
          boardDiv.appendChild(rowDiv);
          row.forEach((cell, index) => {
             const cellButton = document.createElement('button');
-            cellButton.classList.add("cell");
+            cellButton.classList.add("board__cell");
             cellButton.dataset.column = index;
-            cellButton.textContent = cell.getValue();
+            cellButton.textContent = cell.getValue() === 0 ? ' ' : cell.getValue();
             rowDiv.appendChild(cellButton);
 
          });
@@ -168,7 +168,7 @@ function ScreenController() {
    }
 
    function clickHandlerBoard(e) {
-      const selectedCell = [e.target.closest('.row').dataset.row, e.target.dataset.column];
+      const selectedCell = [e.target.closest('.board__row').dataset.row, e.target.dataset.column];
 
       if (!selectedCell) return;
 

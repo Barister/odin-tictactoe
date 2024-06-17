@@ -10,23 +10,61 @@
 
 <body>
 
-   <div class="page">
-
-      <div class="page__container">
-
-         <header class="page__header">
-            <h1 class="page__player-turn"></h1>
-         </header>
-
-         <main class="page__board">
-            Test board
-         </main>
-
+   <div class="wrapper">
+      <div id="welcome-modal" class="modal">
+         <div class="modal-content">
+            <h2 class="title modal-content__title">Welcome to<br>Tic-Tac-Toe Game</h2>
+            <p class="subtitle modal-content__subtitle">Choose your settings</p>
+            <form class="modal-content__form" id="settings-form">
+               <div class="modal-content__players">
+                  <div class="modal-content__block">
+                     <p>Player 1</p>
+                     <label for="player1-name">Name:</label>
+                     <input type="text" id="player1-name" name="player1-name" value="Player 1">
+                     <label for="player1-marker">Token:</label>
+                     <input type="select" id="player1-marker" name="player1-marker" value="X">
+                  </div>
+                  <div class="modal-content__block">
+                     <p>Player 2</p>
+                     <label for="player2-name">Name:</label>
+                     <input type="text" id="player2-name" name="player2-name" value="Player 2">
+                     <label for="player2-marker">Token:</label>
+                     <input type="select" id="player2-marker" name="player2-marker" value="O">
+                  </div>
+               </div>
+               <div class="modal-content__settings">
+                  <label for="board-size">Board Size:</label>
+                  <select id="board-size" name="board-size">
+                     <option value="3">3x3 Easy</option>
+                     <option value="4">4x4 Fun</option>
+                     <option value="5">5x5 Interesting</option>
+                     <option value="15">15x15 Hardcore</option>
+                  </select>
+               </div>
+               <button type="submit">Start Game</button>
+            </form>
+         </div>
       </div>
 
+
+      <div class="page">
+
+         <div class="page__container">
+
+            <header class="page__header">
+               <h1 class="page__player-turn title"></h1>
+            </header>
+
+            <main class="board page__board">
+               Test
+            </main>
+
+         </div>
+
+      </div>
    </div>
 
-   <script src="./js/script.js"></script>
+   <script type="module" src="../js/app.js"></script>
 </body>
 
 </html>
