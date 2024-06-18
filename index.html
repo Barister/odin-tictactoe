@@ -11,37 +11,48 @@
 <body>
 
    <div class="wrapper">
-      <div id="welcome-modal" class="modal">
+      <div class="modal" id="welcome-modal">
          <div class="modal-content">
-            <h2 class="title modal-content__title">Welcome to<br>Tic-Tac-Toe Game</h2>
-            <p class="subtitle modal-content__subtitle">Choose your settings</p>
+            <h2 class="modal__title title ">Welcome to<br>Tic-Tac-Toe Game</h2>
+            <p class="modal__subtitle">Choose your settings</p>
             <form class="modal-content__form" id="settings-form">
                <div class="modal-content__players">
                   <div class="modal-content__block">
                      <p>Player 1</p>
-                     <label for="player1-name">Name:</label>
-                     <input type="text" id="player1-name" name="player1-name" value="Player 1">
-                     <label for="player1-marker">Token:</label>
-                     <input type="select" id="player1-marker" name="player1-marker" value="X">
+                     <label for="player1-input-name">Name:</label>
+                     <input type="text" id="player1-input-name" name="player1-input-name" value="Player 1">
+                     <label for="player1-input-marker">Token:</label>
+                     <input type="select" id="player1-input-marker" name="player1-input-marker" value="X">
                   </div>
                   <div class="modal-content__block">
                      <p>Player 2</p>
-                     <label for="player2-name">Name:</label>
-                     <input type="text" id="player2-name" name="player2-name" value="Player 2">
-                     <label for="player2-marker">Token:</label>
-                     <input type="select" id="player2-marker" name="player2-marker" value="O">
+                     <label for="player2-input-name">Name:</label>
+                     <input type="text" id="player2-input-name" name="player2-input-name" value="Player 2">
+                     <label for="player2-input-marker">Token:</label>
+                     <input type="select" id="player2-input-marker" name="player2-input-marker" value="O">
                   </div>
                </div>
                <div class="modal-content__settings">
-                  <label for="board-size">Board Size:</label>
-                  <select id="board-size" name="board-size">
-                     <option value="3">3x3 Easy</option>
-                     <option value="4">4x4 Fun</option>
-                     <option value="5">5x5 Interesting</option>
-                     <option value="15">15x15 Hardcore</option>
-                  </select>
+                  <label class="modal-content__block" for="board-size">Board Size:
+                     <select id="board-size" name="board-size">
+                        <option value="3">3x3 Easy</option>
+                        <option value="4">4x4 Fun</option>
+                        <option value="5">5x5 Interesting</option>
+                        <option value="15">15x15 Hardcore</option>
+                     </select>
+                  </label>
+                  <label class="modal-content__block" for="time-input-wins">Play up to
+                     <select name="time-input-wins" id="time-input-wins">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3" selected>3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                     </select>
+                     wins
+                  </label>
                </div>
-               <button type="submit">Start Game</button>
+               <button class="btn" type="submit">Start Game</button>
             </form>
          </div>
       </div>
@@ -55,9 +66,26 @@
                <h1 class="page__player-turn title"></h1>
             </header>
 
-            <main class="board page__board">
+            <main class="page__board board " translate="no">
                Test
             </main>
+
+            <aside class="page__aside aside-page">
+               <div class="aside-page__players">
+                  <span class="aside-page__player" id="player1-name">Player 1</span>
+                  <span class="aside-page__player" id="player1-marker">X</span>
+                  <span>vs</span>
+                  <span class="aside-page__player" id="player2-marker">O</span>
+                  <span class="aside-page__player" id="player2-name">Player 2</span>
+               </div>
+               <div class="aside-page__results">
+                  <span class="aside-page__result">0</span>
+                  <span>:</span>
+                  <span class="aside-page__result">0</span>
+               </div>
+               <div class="aside-page__wins">Playing up to <span>3</span> wins</div>
+               <button class="aside-page__button btn">Restart</button>
+            </aside>
 
          </div>
 
