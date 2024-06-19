@@ -120,10 +120,9 @@ input, textarea {
 }
 .modal__content {
   background-color: #cad4ca;
-  margin: 5% auto;
+  margin: 10px clamp(1rem, 4vw, 3rem);
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
   min-height: 50%;
   max-width: 600px;
 }

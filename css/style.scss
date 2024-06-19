@@ -147,10 +147,10 @@ input, textarea {
   justify-content: center;
   &__content {
    background-color: $secondaryColor;
-   margin: 5% auto;
+   margin: 10px clamp(1.0rem, 4vw, 3.0rem);
    padding: 20px;
    border: 1px solid #888;
-   width: 80%;
+   //width: 80%;
    min-height: 50%;
    max-width: 600px;
    //text-align: center;
