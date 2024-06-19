@@ -12,28 +12,28 @@
 
    <div class="wrapper">
       <div class="modal" id="welcome-modal">
-         <div class="modal-content">
+         <div class="modal__content">
             <h2 class="modal__title title ">Welcome to<br>Tic-Tac-Toe Game</h2>
             <p class="modal__subtitle">Choose your settings</p>
-            <form class="modal-content__form" id="settings-form">
-               <div class="modal-content__players">
-                  <div class="modal-content__block">
-                     <p>Player 1</p>
+            <form class="modal__form" id="settings-form">
+               <div class="modal__players">
+                  <div class="modal__player-block">
                      <label for="player1-input-name">Name:</label>
-                     <input type="text" id="player1-input-name" name="player1-input-name" value="Player 1">
-                     <label for="player1-input-marker">Token:</label>
-                     <input type="select" id="player1-input-marker" name="player1-input-marker" value="X">
+                     <input type="text" id="player1-input-name" name="player1-input-name" placeholder="Player 1">
+                     <label for="player1-input-marker">Token:
+                        <input type="text" id="player1-input-marker" name="player1-input-marker" max='1'
+                           placeholder="X"></label>
                   </div>
-                  <div class="modal-content__block">
-                     <p>Player 2</p>
+                  <div class="modal__player-block">
                      <label for="player2-input-name">Name:</label>
-                     <input type="text" id="player2-input-name" name="player2-input-name" value="Player 2">
-                     <label for="player2-input-marker">Token:</label>
-                     <input type="select" id="player2-input-marker" name="player2-input-marker" value="O">
+                     <input type="text" id="player2-input-name" name="player2-input-name" placeholder="Player 2">
+                     <label for="player2-input-marker">Token:
+                        <input type="text" id="player2-input-marker" name="player2-input-marker" max='1'
+                           placeholder="O"></label>
                   </div>
                </div>
-               <div class="modal-content__settings">
-                  <label class="modal-content__block" for="board-size">Board Size:
+               <div class="modal__settings">
+                  <label class="modal__settings-block" for="board-size">Board Size:
                      <select id="board-size" name="board-size">
                         <option value="3">3x3 Easy</option>
                         <option value="4">4x4 Fun</option>
@@ -41,7 +41,7 @@
                         <option value="15">15x15 Hardcore</option>
                      </select>
                   </label>
-                  <label class="modal-content__block" for="time-input-wins">Play up to
+                  <label class="modal__settings-block" for="time-input-wins">Play up to
                      <select name="time-input-wins" id="time-input-wins">
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -78,7 +78,7 @@
                   <span class="aside-page__player" id="player2-marker">O</span>
                   <span class="aside-page__player" id="player2-name">Player 2</span>
                </div>
-               <div class="aside-page__results">
+               <div class="aside-page__results title">
                   <span class="aside-page__result">0</span>
                   <span>:</span>
                   <span class="aside-page__result">0</span>

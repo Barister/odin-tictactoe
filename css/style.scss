@@ -27,7 +27,7 @@
    font-weight: inherit;
  }
  
- button, input, textarea {
+ button, input, textarea, select {
    font-family: inherit;
    font-size: inherit;
    cursor: pointer;
@@ -70,6 +70,7 @@ $backgroundColor: #f8f0fb;
  body {
    font-size: 2.0rem;
    font-family: Roboto, sans-serif;
+   color: $textColor;
    &.scroll-lock {
       //overflow: hidden;
       user-select: none
@@ -107,27 +108,26 @@ $backgroundColor: #f8f0fb;
 
 .title {
   max-width: 100%;
-  //text-wrap: nowrap;
   white-space: wrap;
   font-size: clamp(2.8rem, 10vw - 2.0rem, 48px);
-  //text-transform: uppercase;
   line-height: 100%;
-  //font-family: Kanit, sans-serif;
   position: relative;
 }
 
 .subtitle {
   position: relative;
   display: inline-block;
-     //padding: 2.0rem 0px 1.0rem 0px;
-     p {
-        letter-spacing: 1.12px;
-     }
-  
+  p {
+   letter-spacing: 1.12px;
+  }
 }
 
 .btn {
    padding: 5px 10px;
+}
+
+input, textarea {
+   font-size: 2.0rem;   
 }
 
 
@@ -142,69 +142,69 @@ $backgroundColor: #f8f0fb;
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.8);
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  min-height: 50%;
-  max-width: 600px;
-  text-align: center;
-  &__title {
-   margin-bottom: 20px;
+  &__content {
+   background-color: $secondaryColor;
+   margin: 5% auto;
+   padding: 20px;
+   border: 1px solid #888;
+   width: 80%;
+   min-height: 50%;
+   max-width: 600px;
+   //text-align: center;
   }
-  &__subtitle {
+  &__title, &__subtitle {
    margin-bottom: 20px;
+   text-align: center;
   }
   &__form {
-   display: flex;
-   flex-direction: column;
-   row-gap: 20px;
-   input {
-      width: auto;
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+      input {
+         width: auto;
+         padding: 3px 5px;
+      }
+      button {
+         width: max-content;
+         align-self: center;
+      }
    }
-   button {
-      width: max-content;
-      align-self: center;
+   &__players, &__settings {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      column-gap: 50px;
+      row-gap: 10px;
+      text-align: center;
    }
-  }
-  &__players, &__settings {
-   display: flex;
-   justify-content: space-around;
-   flex-wrap: wrap;
-   column-gap: 5px;
-  }
-  &__settings {
-   align-items: center;
-  }
-  &__block {
-   flex: 0 1 45%;
-   input {
-      width: 100%;
+   &__settings {
+      align-items: end;
+      
    }
-   input:not(:last-child) {
-      margin-bottom: 10px;
+   &__player-block, &__settings-block {
+      flex: 1 0 45%;
+      input {
+         width: 100%;
+         max-width: 200px;
+      }
+      input:not(:last-child) {
+         margin-bottom: 10px;
+         min-width: 135px;
+      }
+      input:last-of-type {
+         width: 3ch;
+         height: 4rem;
+         text-align: center;
+      }
+      label:last-of-type {
+         text-wrap: nowrap;
+      }
    }
-  }
 }
-
-.modal-content__form {
-   
-}
-
-.modal-content__players, {
-   
-}
-
-.modal-content__block {
-   
-}
+  
 
 // main screen
 .page {
@@ -221,13 +221,9 @@ $backgroundColor: #f8f0fb;
       flex: 1;
       justify-content: center;
       max-width: 450px;
-      //width: 80%;
-      //align-items: ;
       aspect-ratio: 1;
    }
 }
-
-
 
 .board__row {
    min-height: fit-content;
@@ -288,6 +284,5 @@ $backgroundColor: #f8f0fb;
 
    &__button {
       width: fit-content;
-
    }
 }

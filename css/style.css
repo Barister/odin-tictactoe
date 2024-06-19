@@ -24,7 +24,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: inherit;
 }
 
-button, input, textarea {
+button, input, textarea, select {
   font-family: inherit;
   font-size: inherit;
   cursor: pointer;
@@ -45,6 +45,7 @@ html {
 body {
   font-size: 2rem;
   font-family: Roboto, sans-serif;
+  color: #211a1d;
 }
 body.scroll-lock {
   -webkit-user-select: none;
@@ -100,6 +101,10 @@ body.scroll-lock {
   padding: 5px 10px;
 }
 
+input, textarea {
+  font-size: 2rem;
+}
+
 .modal {
   position: fixed;
   z-index: 1;
@@ -109,58 +114,67 @@ body.scroll-lock {
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.8);
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
-
-.modal-content {
-  background-color: #fefefe;
+.modal__content {
+  background-color: #cad4ca;
   margin: 5% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
   min-height: 50%;
   max-width: 600px;
+}
+.modal__title, .modal__subtitle {
+  margin-bottom: 20px;
   text-align: center;
 }
-.modal-content__title {
-  margin-bottom: 20px;
-}
-.modal-content__subtitle {
-  margin-bottom: 20px;
-}
-.modal-content__form {
+.modal__form {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
 }
-.modal-content__form input {
+.modal__form input {
   width: auto;
+  padding: 3px 5px;
 }
-.modal-content__form button {
+.modal__form button {
   width: -moz-max-content;
   width: max-content;
   align-self: center;
 }
-.modal-content__players, .modal-content__settings {
+.modal__players, .modal__settings {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  -moz-column-gap: 5px;
-       column-gap: 5px;
+  -moz-column-gap: 50px;
+       column-gap: 50px;
+  row-gap: 10px;
+  text-align: center;
 }
-.modal-content__settings {
-  align-items: center;
+.modal__settings {
+  align-items: end;
 }
-.modal-content__block {
-  flex: 0 1 45%;
+.modal__player-block, .modal__settings-block {
+  flex: 1 0 45%;
 }
-.modal-content__block input {
+.modal__player-block input, .modal__settings-block input {
   width: 100%;
+  max-width: 200px;
 }
-.modal-content__block input:not(:last-child) {
+.modal__player-block input:not(:last-child), .modal__settings-block input:not(:last-child) {
   margin-bottom: 10px;
+  min-width: 135px;
+}
+.modal__player-block input:last-of-type, .modal__settings-block input:last-of-type {
+  width: 3ch;
+  height: 4rem;
+  text-align: center;
+}
+.modal__player-block label:last-of-type, .modal__settings-block label:last-of-type {
+  text-wrap: nowrap;
 }
 
 .page {
