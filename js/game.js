@@ -8,6 +8,8 @@ function Gameboard(rows, columns) {
       }
    }
 
+   //console.log(board);
+
    const getBoard = () => board;
 
    const markCell = (row, column, player) => {
@@ -41,18 +43,22 @@ function GameController(
    playerTwoName,
    playerTwoMarker,
    rows,
-   columns
+   columns,
+   winningScore,
+   updateAsideCallback
 ) {
    const board = Gameboard(rows, columns);
 
    const players = [
       {
          name: playerOneName,
-         marker: playerOneMarker
+         marker: playerOneMarker,
+         score: 0
       },
       {
          name: playerTwoName,
-         marker: playerTwoMarker
+         marker: playerTwoMarker,
+         score: 0
       }
    ];
 
@@ -96,11 +102,18 @@ function GameController(
          const winner = checkWinner();
 
          if (winner) {
-            updateScreenCallback(`${getActivePlayer().name} wins!`);
-            removeClickHandler();
-            return;
+            activePlayer.score++;
+            updateAsideCallback(players, winningScore);
+            if (activePlayer.score === winningScore) {
+               updateScreenCallback(`${getActivePlayer().name} wins the game!`);
+               removeClickHandler();
+               return;
+            } else {
+               updateScreenCallback(`${getActivePlayer().name} wins this round!`);
+               resetBoard();
+               return;
+            }
          }
-
          switchPlayerTurn();
          updateScreenCallback(`${getActivePlayer().name}'s turn`);
       } else {
@@ -108,14 +121,24 @@ function GameController(
       }
    };
 
+   const resetBoard = () => {
+      for (let i = 0; i < rows; i++) {
+         for (let j = 0; j < columns; j++) {
+            board.getBoard()[i][j] = Cell();
+         }
+      }
+      updateScreenCallback(`${getActivePlayer().name}'s turn`);
+   }
+
    return {
       playRound,
       getActivePlayer,
-      getBoard: board.getBoard
-   };
+      getBoard: board.getBoard,
+      resetBoard
+   }
 }
 
-function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns) {
+function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns, winningScore) {
    let infoDiv, boardDiv;
 
    const init = () => {
@@ -148,6 +171,21 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
       });
    }
 
+   const updateAside = (players, winningScore) => {
+
+      console.log(players);
+
+      document.getElementById('player1-name').textContent = players[0].name;
+      document.getElementById('player1-marker').textContent = players[0].marker;
+      document.getElementById('player1-score').textContent = players[0].score;
+
+      document.getElementById('player2-name').textContent = players[1].name;
+      document.getElementById('player2-marker').textContent = players[1].marker;
+      document.getElementById('player2-score').textContent = players[1].score;
+
+      document.querySelector('.aside-page__wins span').textContent = winningScore;
+   }
+
    function clickHandlerBoard(e) {
       const selectedCell = [e.target.closest('.board__row').dataset.row, e.target.dataset.column];
       if (!selectedCell) return;
@@ -160,10 +198,13 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
 
    init();
 
-   const game = GameController(updateScreen, removeClickHandler, playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns);
+   const game = GameController(updateScreen, removeClickHandler, playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns, winningScore, updateAside);
 
    boardDiv.addEventListener('click', clickHandlerBoard);
    updateScreen(`${game.getActivePlayer().name}'s turn.`);
+
+   return { updateAside };
 }
 
 export { ScreenController };
+
