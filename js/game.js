@@ -1,9 +1,5 @@
-
-function Gameboard() {
-   const rows = 3;
-   const columns = 3;
+function Gameboard(rows, columns) {
    const board = [];
-
 
    for (let i = 0; i < rows; i++) {
       board[i] = [];
@@ -15,7 +11,6 @@ function Gameboard() {
    const getBoard = () => board;
 
    const markCell = (row, column, player) => {
-
       if (board[row][column].getValue() === 0) {
          board[row][column].AddMarker(player);
          return true;
@@ -23,7 +18,7 @@ function Gameboard() {
       return false;
    }
 
-   return { getBoard, markCell }
+   return { getBoard, markCell };
 }
 
 function Cell() {
@@ -41,20 +36,23 @@ function Cell() {
 function GameController(
    updateScreenCallback,
    removeClickHandler,
-   playerOneName = 'Player One',
-   playerTwoName = 'Player Two'
+   playerOneName,
+   playerOneMarker,
+   playerTwoName,
+   playerTwoMarker,
+   rows,
+   columns
 ) {
-
-   const board = Gameboard();
+   const board = Gameboard(rows, columns);
 
    const players = [
       {
          name: playerOneName,
-         marker: 'X'
+         marker: playerOneMarker
       },
       {
          name: playerTwoName,
-         marker: 'O'
+         marker: playerTwoMarker
       }
    ];
 
@@ -78,14 +76,12 @@ function GameController(
          [[0, 2], [1, 2], [2, 2]],
          [[0, 0], [1, 1], [2, 2]],
          [[2, 0], [1, 1], [0, 2]]
-      ]
+      ];
 
       for (const combination of winningCombinations) {
          const [a, b, c] = combination;
 
          if (currentBoard[a[0]][a[1]].getValue() && currentBoard[a[0]][a[1]].getValue() === currentBoard[b[0]][b[1]].getValue() && currentBoard[a[0]][a[1]].getValue() === currentBoard[c[0]][c[1]].getValue()) {
-
-
             return currentBoard[a[0]][a[1]].getValue();
          }
       }
@@ -94,23 +90,19 @@ function GameController(
    }
 
    const playRound = (selectedCell) => {
-
       const [row, column] = selectedCell;
 
       if (board.markCell(row, column, getActivePlayer().marker)) {
          const winner = checkWinner();
 
          if (winner) {
-
             updateScreenCallback(`${getActivePlayer().name} wins!`);
             removeClickHandler();
-
             return;
          }
 
          switchPlayerTurn();
          updateScreenCallback(`${getActivePlayer().name}'s turn`);
-
       } else {
          updateScreenCallback('Invalid move, try again.');
       }
@@ -121,11 +113,9 @@ function GameController(
       getActivePlayer,
       getBoard: board.getBoard
    };
-
 }
 
-function ScreenController() {
-
+function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns) {
    let infoDiv, boardDiv;
 
    const init = () => {
@@ -138,19 +128,11 @@ function ScreenController() {
    }
 
    const updateScreen = (message) => {
-
-      //clear the board;
       boardDiv.textContent = '';
 
-      // get the fresh board and player turn
       const board = game.getBoard();
-      //const activePlayer = game.getActivePlayer();
-
-      // display message
-
       infoDiv.textContent = message;
 
-      // render board squares
       board.forEach((row, rowIndex) => {
          const rowDiv = document.createElement('div');
          rowDiv.classList.add("board__row");
@@ -162,34 +144,26 @@ function ScreenController() {
             cellButton.dataset.column = index;
             cellButton.textContent = cell.getValue() === 0 ? ' ' : cell.getValue();
             rowDiv.appendChild(cellButton);
-
          });
       });
    }
 
    function clickHandlerBoard(e) {
       const selectedCell = [e.target.closest('.board__row').dataset.row, e.target.dataset.column];
-
       if (!selectedCell) return;
-
       game.playRound(selectedCell);
-
    }
 
    const removeClickHandler = () => {
       boardDiv.removeEventListener('click', clickHandlerBoard);
    }
 
-
    init();
 
-   const game = GameController(updateScreen, removeClickHandler);
+   const game = GameController(updateScreen, removeClickHandler, playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns);
 
    boardDiv.addEventListener('click', clickHandlerBoard);
-
    updateScreen(`${game.getActivePlayer().name}'s turn.`);
-
 }
 
-ScreenController();
-
+export { ScreenController };

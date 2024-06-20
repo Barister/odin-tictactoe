@@ -1,11 +1,8 @@
-import { GameController } from './game.js';
 import { initializePopup } from './popup.js';
+import { ScreenController } from './game.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-   initializePopup();
+   initializePopup((player1Name, player1Marker, player2Name, player2Marker, boardSize, timeWins) => {
+      new ScreenController(player1Name, player1Marker, player2Name, player2Marker, boardSize, timeWins);
+   });
 });
-
-function startGame(player1Name, player1Marker, player2Name, player2Marker, boardSize, timeWins) {
-   const game = GameController(player1Name, player1Marker, player2Name, player2Marker, boardSize, timeWins);
-   game.init();
-}
