@@ -27,13 +27,9 @@ export function initializePopup(startGameCallback, updateAsideCallback) {
    }
 
    function listenRestart() {
-      const restartButton = document.querySelector('.aside-page__button');
+      const restartButton = document.querySelector('#restart-button');
+      restartButton.addEventListener('click', handleRestartClick);
 
-      if (restartButton) {
-         restartButton.addEventListener('click', handleRestartClick);
-      } else {
-         console.error('Restart button not found');
-      }
    }
 
    function handleRestartClick(event) {

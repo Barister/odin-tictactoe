@@ -1,6 +1,6 @@
 import { GameController } from './game.js';
 
-function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns) {
+function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns, winningScore) {
    let infoDiv, boardDiv;
 
    const init = () => {
@@ -11,6 +11,7 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
    const cacheDom = () => {
       infoDiv = document.querySelector('.page__player-turn');
       boardDiv = document.querySelector('.page__board');
+
    }
 
    const bindEvents = () => {
@@ -42,7 +43,7 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
       });
    }
 
-   const updateAside = (players, winningCells) => {
+   const updateAside = (players, winningScore) => {
       document.getElementById('player1-name').textContent = players[0].name;
       document.getElementById('player1-marker').textContent = players[0].marker;
       document.getElementById('player1-score').textContent = players[0].score;
@@ -51,7 +52,7 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
       document.getElementById('player2-marker').textContent = players[1].marker;
       document.getElementById('player2-score').textContent = players[1].score;
 
-      document.querySelector('.aside-page__wins span').textContent = winningCells;
+      document.querySelector('.aside-page__wins span').textContent = winningScore;
    }
 
    function clickHandlerBoard(e) {
@@ -71,7 +72,7 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
 
    init();
 
-   const game = GameController(updateScreen, removeClickHandler, playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns, updateAside);
+   const game = GameController(updateScreen, removeClickHandler, playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns, updateAside, winningScore);
 
    updateScreen(`${game.getActivePlayer().name}'s turn.`);
 

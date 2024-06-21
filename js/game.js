@@ -62,7 +62,8 @@ function GameController(
    playerTwoMarker,
    rows,
    columns,
-   updateAsideCallback
+   updateAsideCallback,
+   winningScore
 ) {
    const winningCells = getWinningCells(rows); // Определение winningCells
    const board = Gameboard(rows, columns);
@@ -126,15 +127,23 @@ function GameController(
 
          if (winner) {
             activePlayer.score++;
-            updateAsideCallback(players, winningCells); // Передача winningCells вместо winningScore
-            if (activePlayer.score === winningCells) {
+            updateAsideCallback(players, winningScore); // Передача winningScore
+
+            if (activePlayer.score === winningScore) {
                updateScreenCallback(`${getActivePlayer().name} wins the game!`);
                removeClickHandler();
                return;
             } else {
                updateScreenCallback(`${getActivePlayer().name} wins this round!`);
+               const continueButton = document.querySelector('#continue-button');
 
-               resetBoard();
+               // Добавление обработчика клика
+               const continueClickHandler = () => {
+                  resetBoard();
+                  continueButton.removeEventListener('click', continueClickHandler); // Удаление обработчика
+               };
+
+               continueButton.addEventListener('click', continueClickHandler);
                return;
             }
          }
