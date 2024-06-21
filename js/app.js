@@ -1,5 +1,5 @@
 import { initializePopup } from './popup.js';
-import { ScreenController } from './game.js';
+import { ScreenController } from './screen.js';
 
 document.addEventListener('DOMContentLoaded', () => {
    let screenController;
