@@ -1,3 +1,18 @@
+// Функция для определения winningCells в зависимости от размера доски
+function getWinningCells(rows) {
+   if (rows === 3) {
+      return 3;
+   } else if (rows === 4) {
+      return 3;
+   } else if (rows === 5) {
+      return 4;
+   } else if (rows === 15) {
+      return 5;
+   }
+   return 3; // По умолчанию
+}
+
+// Создание доски
 function Gameboard(rows, columns) {
    const board = [];
 
@@ -8,27 +23,28 @@ function Gameboard(rows, columns) {
       }
    }
 
-   //console.log(board);
-
    const getBoard = () => board;
 
    const markCell = (row, column, player) => {
-
-
-      console.log('board:', board);
-      console.log(row, column, player);
-      console.log(board[row][column]);
-
-      if (board[row][column].getValue() === 0) {
+      if (board[row] && board[row][column] && board[row][column].getValue() === 0) {
          board[row][column].AddMarker(player);
          return true;
       }
       return false;
    }
 
-   return { getBoard, markCell };
+   const resetBoard = () => {
+      for (let i = 0; i < rows; i++) {
+         for (let j = 0; j < columns; j++) {
+            board[i][j] = Cell();
+         }
+      }
+   }
+
+   return { getBoard, markCell, resetBoard };
 }
 
+// Клетка доски
 function Cell() {
    let value = 0;
 
@@ -50,9 +66,9 @@ function GameController(
    playerTwoMarker,
    rows,
    columns,
-   winningScore,
    updateAsideCallback
 ) {
+   const winningCells = getWinningCells(rows); // Определение winningCells
    const board = Gameboard(rows, columns);
 
    const players = [
@@ -79,26 +95,31 @@ function GameController(
    const checkWinner = () => {
       const currentBoard = board.getBoard();
 
-      const winningCombinations = [
-         [[0, 0], [0, 1], [0, 2]],
-         [[1, 0], [1, 1], [1, 2]],
-         [[2, 0], [2, 1], [2, 2]],
-         [[0, 0], [1, 0], [2, 0]],
-         [[0, 1], [1, 1], [2, 1]],
-         [[0, 2], [1, 2], [2, 2]],
-         [[0, 0], [1, 1], [2, 2]],
-         [[2, 0], [1, 1], [0, 2]]
-      ];
-
-      for (const combination of winningCombinations) {
-         const [a, b, c] = combination;
-
-         if (currentBoard[a[0]][a[1]].getValue() && currentBoard[a[0]][a[1]].getValue() === currentBoard[b[0]][b[1]].getValue() && currentBoard[a[0]][a[1]].getValue() === currentBoard[c[0]][c[1]].getValue()) {
-            return currentBoard[a[0]][a[1]].getValue();
+      const checkLine = (line) => {
+         let count = 0;
+         let lastMarker = null;
+         for (const [row, col] of line) {
+            const cellValue = currentBoard[row][col].getValue();
+            if (cellValue === lastMarker && cellValue !== 0) {
+               count++;
+            } else {
+               count = 1;
+               lastMarker = cellValue;
+            }
+            if (count === winningCells) return true; // Использование winningCells
          }
+         return false;
       }
 
-      return null;
+      // Проверка всех строк, столбцов и диагоналей
+      for (let i = 0; i < rows; i++) {
+         if (checkLine([...Array(columns).keys()].map(j => [i, j]))) return true;
+         if (checkLine([...Array(rows).keys()].map(j => [j, i]))) return true;
+      }
+      if (checkLine([...Array(rows).keys()].map(i => [i, i]))) return true;
+      if (checkLine([...Array(rows).keys()].map(i => [i, rows - i - 1]))) return true;
+
+      return false;
    }
 
    const playRound = (selectedCell) => {
@@ -109,8 +130,8 @@ function GameController(
 
          if (winner) {
             activePlayer.score++;
-            updateAsideCallback(players, winningScore);
-            if (activePlayer.score === winningScore) {
+            updateAsideCallback(players, winningCells); // Передача winningCells вместо winningScore
+            if (activePlayer.score === winningCells) {
                updateScreenCallback(`${getActivePlayer().name} wins the game!`);
                removeClickHandler();
                return;
@@ -128,11 +149,7 @@ function GameController(
    };
 
    const resetBoard = () => {
-      for (let i = 0; i < rows; i++) {
-         for (let j = 0; j < columns; j++) {
-            board.getBoard()[i][j] = Cell();
-         }
-      }
+      board.resetBoard();
       updateScreenCallback(`${getActivePlayer().name}'s turn`);
    }
 
@@ -144,7 +161,7 @@ function GameController(
    }
 }
 
-function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns, winningScore) {
+function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns) {
    let infoDiv, boardDiv;
 
    const init = () => {
@@ -159,6 +176,10 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
 
    const bindEvents = () => {
       boardDiv.addEventListener('click', clickHandlerBoard);
+   }
+
+   const unbindEvents = () => {
+      boardDiv.removeEventListener('click', clickHandlerBoard);
    }
 
    const updateScreen = (message) => {
@@ -182,7 +203,7 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
       });
    }
 
-   const updateAside = (players, winningScore) => {
+   const updateAside = (players, winningCells) => {
       document.getElementById('player1-name').textContent = players[0].name;
       document.getElementById('player1-marker').textContent = players[0].marker;
       document.getElementById('player1-score').textContent = players[0].score;
@@ -191,7 +212,7 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
       document.getElementById('player2-marker').textContent = players[1].marker;
       document.getElementById('player2-score').textContent = players[1].score;
 
-      document.querySelector('.aside-page__wins span').textContent = winningScore;
+      document.querySelector('.aside-page__wins span').textContent = winningCells;
    }
 
    function clickHandlerBoard(e) {
@@ -206,12 +227,12 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
    }
 
    const removeClickHandler = () => {
-      boardDiv.removeEventListener('click', clickHandlerBoard);
+      unbindEvents();
    }
 
    init();
 
-   const game = GameController(updateScreen, removeClickHandler, playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns, winningScore, updateAside);
+   const game = GameController(updateScreen, removeClickHandler, playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns, updateAside);
 
    updateScreen(`${game.getActivePlayer().name}'s turn.`);
 
@@ -219,4 +240,3 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
 }
 
 export { ScreenController };
-
