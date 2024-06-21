@@ -13,6 +13,12 @@ function Gameboard(rows, columns) {
    const getBoard = () => board;
 
    const markCell = (row, column, player) => {
+
+
+      console.log('board:', board);
+      console.log(row, column, player);
+      console.log(board[row][column]);
+
       if (board[row][column].getValue() === 0) {
          board[row][column].AddMarker(player);
          return true;
@@ -143,11 +149,16 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
 
    const init = () => {
       cacheDom();
+      bindEvents();
    }
 
    const cacheDom = () => {
       infoDiv = document.querySelector('.page__player-turn');
       boardDiv = document.querySelector('.page__board');
+   }
+
+   const bindEvents = () => {
+      boardDiv.addEventListener('click', clickHandlerBoard);
    }
 
    const updateScreen = (message) => {
@@ -172,9 +183,6 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
    }
 
    const updateAside = (players, winningScore) => {
-
-      console.log(players);
-
       document.getElementById('player1-name').textContent = players[0].name;
       document.getElementById('player1-marker').textContent = players[0].marker;
       document.getElementById('player1-score').textContent = players[0].score;
@@ -187,9 +195,14 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
    }
 
    function clickHandlerBoard(e) {
-      const selectedCell = [e.target.closest('.board__row').dataset.row, e.target.dataset.column];
-      if (!selectedCell) return;
-      game.playRound(selectedCell);
+      const rowDiv = e.target.closest('.board__row');
+      if (!rowDiv) return;
+
+      const row = rowDiv.dataset.row;
+      const column = e.target.dataset.column;
+      if (row && column) {
+         game.playRound([parseInt(row), parseInt(column)]);
+      }
    }
 
    const removeClickHandler = () => {
@@ -200,7 +213,6 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
 
    const game = GameController(updateScreen, removeClickHandler, playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns, winningScore, updateAside);
 
-   boardDiv.addEventListener('click', clickHandlerBoard);
    updateScreen(`${game.getActivePlayer().name}'s turn.`);
 
    return { updateAside };
