@@ -24,8 +24,6 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
    const updateScreen = (message) => {
       let board;
 
-      console.log('board in updateScreen:', board);
-
       boardDiv.textContent = '';
       board = game.getBoard();
       infoDiv.textContent = message;
@@ -63,8 +61,6 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
 
       const row = rowDiv.dataset.row;
       const column = e.target.dataset.column;
-
-      console.log(row, column);
 
       if (row && column) {
          game.playRound([parseInt(row), parseInt(column)]);
