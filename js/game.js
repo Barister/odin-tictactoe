@@ -1,6 +1,6 @@
 // Функция для определения winningCells в зависимости от размера доски
 function getWinningCells(rows) {
-   if (rows === 5) {
+   if (rows === 5 || rows === 4) {
       return 4;
    } else if (rows === 15) {
       return 5;
