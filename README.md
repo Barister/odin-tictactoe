@@ -1,6 +1,6 @@
 # The Odin Curriculum Tic Tac Toe
 
-## This project is a simple implementation of the classic Tic-Tac-Toe game, developed as part of my learning journey in front-end web development. It was completed as a task for The Odin Project FullStack JS curriculum, with assistance from ChatGPT for guidance and clarification on JavaScript concepts.
+### This project is a simple implementation of the classic Tic-Tac-Toe game, developed as part of my learning journey in front-end web development. It was completed as a task for The Odin Project FullStack JS curriculum, with assistance from ChatGPT for guidance and clarification on JavaScript concepts.
 
 ### Project Objective
 - Game Setup: Implement the game logic using modular JavaScript, storing the gameboard and player information in objects.
