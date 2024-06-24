@@ -11,8 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
    };
 
    const startGame = (playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns, winningScore) => {
+      // Удаляем старый контроллер, если он существует
+      if (screenController) {
+         screenController.removeClickHandler();
+         screenController = null;
+      }
+
       screenController = new ScreenController(playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns, winningScore);
-      screenController.updateAside([{ name: playerOneName, marker: playerOneMarker, score: 0 }, { name: playerTwoName, marker: playerTwoMarker, score: 0 }], winningScore);
    };
 
    initializePopup(startGame, updateAside);

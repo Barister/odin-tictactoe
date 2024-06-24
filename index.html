@@ -18,18 +18,20 @@
             <form class="modal__form" id="settings-form">
                <div class="modal__players">
                   <div class="modal__player-block">
-                     <label for="player1-input-name">Name:</label>
-                     <input type="text" id="player1-input-name" name="player1-input-name" placeholder="Player 1">
-                     <label for="player1-input-marker">Token:
-                        <input type="text" id="player1-input-marker" name="player1-input-marker" max='1'
-                           placeholder="X"></label>
+                     <label class="modal__label" for="player1-input-name">Name:</label>
+                     <input class="modal__input" type="text" id="player1-input-name" name="player1-input-name"
+                        placeholder="Player 1">
+                     <label class="modal__label" for="player1-input-marker">Token:
+                        <input class="modal__input" type="text" id="player1-input-marker" name="player1-input-marker"
+                           max='1' placeholder="X"></label>
                   </div>
                   <div class="modal__player-block">
-                     <label for="player2-input-name">Name:</label>
-                     <input type="text" id="player2-input-name" name="player2-input-name" placeholder="Player 2">
-                     <label for="player2-input-marker">Token:
-                        <input type="text" id="player2-input-marker" name="player2-input-marker" max='1'
-                           placeholder="O"></label>
+                     <label class="modal__label" for="player2-input-name">Name:</label>
+                     <input class="modal__input" type="text" id="player2-input-name" name="player2-input-name"
+                        placeholder="Player 2">
+                     <label class="modal__label" for="player2-input-marker">Token:
+                        <input class="modal__input" type="text" id="player2-input-marker" name="player2-input-marker"
+                           max='1' placeholder="O"></label>
                   </div>
                </div>
                <div class="modal__settings">
@@ -66,8 +68,7 @@
                <h1 class="page__player-turn title"></h1>
             </header>
 
-            <main class="page__board board " translate="no">
-               Test
+            <main class="page__board board" id="gameboard" translate="no">
             </main>
 
             <aside class="page__aside aside-page">
@@ -78,8 +79,8 @@
                   </span>
                   <span>vs</span>
                   <span class="aside-page__player">
-                     <span class="" id="player2-marker">O</span>
                      <span class="" id="player2-name">Player 2</span>
+                     <span class="" id="player2-marker">O</span>
                   </span>
                </div>
                <div class="aside-page__results title">

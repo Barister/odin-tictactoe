@@ -196,7 +196,7 @@ input, textarea {
          min-width: 135px;
       }
       input:last-of-type {
-         width: 3ch;
+         width: 4ch;
          height: 4rem;
          text-align: center;
       }
@@ -212,7 +212,10 @@ input, textarea {
    flex: 1;
    height: 100%;
    &__header {
-      grid-column: 1 / 3;
+      grid-column: 1 / -1;
+      @media (max-width: $smallMobile) {
+         text-align: center;
+      }
    }
    &__player-turn {
       margin-bottom: 30px;

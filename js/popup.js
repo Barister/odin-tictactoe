@@ -19,8 +19,8 @@ export function initializePopup(startGameCallback, updateAsideCallback) {
          { name: player2Name, marker: player2Marker, score: 0 }
       ];
 
-      updateAsideCallback(players, timeWins);
       startGameCallback(player1Name, player1Marker, player2Name, player2Marker, boardSize, boardSize, timeWins);
+      updateAsideCallback(players, timeWins);
 
       modal.style.display = 'none';
       listenRestart();
@@ -29,10 +29,11 @@ export function initializePopup(startGameCallback, updateAsideCallback) {
    function listenRestart() {
       const restartButton = document.querySelector('#restart-button');
       restartButton.addEventListener('click', handleRestartClick);
-
    }
 
    function handleRestartClick(event) {
+      event.preventDefault();
+      form.reset();
       console.log('restart button click');
       modal.style.display = 'flex';
    }

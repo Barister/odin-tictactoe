@@ -11,7 +11,6 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
    const cacheDom = () => {
       infoDiv = document.querySelector('.page__player-turn');
       boardDiv = document.querySelector('.page__board');
-
    }
 
    const bindEvents = () => {
@@ -23,9 +22,12 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
    }
 
    const updateScreen = (message) => {
-      boardDiv.textContent = '';
+      let board;
 
-      const board = game.getBoard();
+      console.log('board in updateScreen:', board);
+
+      boardDiv.textContent = '';
+      board = game.getBoard();
       infoDiv.textContent = message;
 
       board.forEach((row, rowIndex) => {
@@ -61,6 +63,9 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
 
       const row = rowDiv.dataset.row;
       const column = e.target.dataset.column;
+
+      console.log(row, column);
+
       if (row && column) {
          game.playRound([parseInt(row), parseInt(column)]);
       }
@@ -72,11 +77,13 @@ function ScreenController(playerOneName, playerOneMarker, playerTwoName, playerT
 
    init();
 
-   const game = GameController(updateScreen, removeClickHandler, playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns, updateAside, winningScore);
+   const game = GameController(init, updateScreen, removeClickHandler, playerOneName, playerOneMarker, playerTwoName, playerTwoMarker, rows, columns, updateAside, winningScore);
+
+   game.resetGame();
 
    updateScreen(`${game.getActivePlayer().name}'s turn.`);
 
-   return { updateAside };
+   return { updateAside, removeClickHandler };
 }
 
 export { ScreenController };

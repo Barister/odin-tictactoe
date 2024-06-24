@@ -166,7 +166,7 @@ input, textarea {
   min-width: 135px;
 }
 .modal__player-block input:last-of-type, .modal__settings-block input:last-of-type {
-  width: 3ch;
+  width: 4ch;
   height: 4rem;
   text-align: center;
 }
@@ -179,7 +179,12 @@ input, textarea {
   height: 100%;
 }
 .page__header {
-  grid-column: 1/3;
+  grid-column: 1/-1;
+}
+@media (max-width: 479.98px) {
+  .page__header {
+    text-align: center;
+  }
 }
 .page__player-turn {
   margin-bottom: 30px;
