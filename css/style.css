@@ -61,8 +61,8 @@ body.scroll-lock {
 
 [class*=__container] {
   max-width: 991.98px;
-  padding-left: clamp(1rem, 4vw, 6rem);
-  padding-right: clamp(1rem, 4vw, 6rem);
+  padding-left: clamp(1rem, 3vw, 6rem);
+  padding-right: clamp(1rem, 3vw, 6rem);
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(min-content, 1fr) minmax(100px, 30%);
@@ -213,6 +213,11 @@ input, textarea {
   width: 100%;
   flex: 1 1 33%;
   aspect-ratio: 1;
+  border: 1px solid #fff;
+  background-color: #cad4ca;
+  border-radius: 15px;
+  color: #6320ee;
+  line-height: 0;
 }
 
 .page {

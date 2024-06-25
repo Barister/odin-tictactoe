@@ -92,8 +92,8 @@ $backgroundColor: #f8f0fb;
 
 [class*="__container"] {
    max-width: $tablets;
-   padding-left: clamp(1.0rem, 4vw, 6.0rem);
-   padding-right: clamp(1.0rem, 4vw, 6.0rem);
+   padding-left: clamp(1.0rem, 3vw, 6.0rem);
+   padding-right: clamp(1.0rem, 3vw, 6.0rem);
    margin: 0 auto;
    display: grid;
    grid-template-columns: minmax(min-content, 1fr) minmax(100px, 30%);
@@ -244,7 +244,12 @@ input, textarea {
    min-width: 20px;
    width: 100%;
    flex: 1 1 33%;
-   aspect-ratio: 1;  
+   aspect-ratio: 1;
+   border: 1px solid #fff;
+   background-color: $secondaryColor;
+   border-radius: 15px;
+   color: $primaryColor;
+   line-height: 0;
 }
 
 .page {
